@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>ID Unban Request</title>
+<style>
+*{box-sizing:border-box}body{margin:0;min-height:100vh;font-family:Segoe UI,Arial,sans-serif;color:#fff;background:radial-gradient(circle at 20% 20%,#a13eae55,transparent 35%),linear-gradient(145deg,#21143d,#342052 48%,#4d2460);display:flex;justify-content:center;padding:42px 14px}.app{width:min(100%,520px)}.brand{text-align:center;margin-bottom:18px}.brand h1{margin:0;font-size:27px;font-weight:900;color:#43f0ef}.brand p{margin:7px 0 0;font-size:11px;font-weight:700}.panel{background:#ffffff12;border:1px solid #ffffff38;border-radius:14px;padding:18px;box-shadow:0 18px 45px #0003;backdrop-filter:blur(12px)}.label{display:block;margin:0 0 7px 2px;font-size:8px;font-weight:900;color:#27f5e9}.uid-row{display:grid;grid-template-columns:1fr 82px;gap:8px}select,input{width:100%;height:43px;border:1px solid #ffffff2b;border-radius:8px;outline:none;background:#ffffff17;color:#fff;padding:0 13px;font-size:12px;font-weight:700}option{background:#38224e;color:#fff}button{border:0;border-radius:8px;color:#fff;font-size:10px;font-weight:900;cursor:pointer}.check,.support{background:linear-gradient(135deg,#16e8ef,#d843e8)}.support{display:block;margin:15px auto 0;padding:11px 22px}.hidden{display:none!important}.result-card{margin-top:16px;background:#ffffff14;border:1px solid #ffffff38;border-radius:11px;padding:12px}.player-head{display:flex;align-items:center;gap:12px}.avatar{width:48px;height:48px;border-radius:10px;display:grid;place-items:center;font-size:18px;font-weight:900;background:linear-gradient(145deg,#ffe35b,#ff6b72);border:2px solid #ffffff80}.player-name{font-size:16px;font-weight:900;word-break:break-word}.uid{margin-top:3px;color:#e6d8ea;font-size:10px;font-weight:700}.verified{display:inline-block;margin-left:5px;padding:2px 5px;border-radius:5px;background:#20c96d;color:#08251a;font-size:7px}.stats{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:11px}.stat{min-height:61px;padding:10px;border-radius:6px;background:#28163285}.stat small{display:block;color:#baa9c1;font-size:7px;font-weight:900;margin-bottom:8px}.stat strong{font-size:13px}.login strong{font-size:10px}.section-title{text-align:center;color:#27f5e9;font-size:9px;font-weight:900;margin:18px 0 9px}.methods{display:grid;grid-template-columns:1fr 1fr;gap:9px}.method{min-height:70px;border:1px solid #ffffff33;border-radius:8px;background:#ffffff0d;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:5px;font-size:10px;font-weight:900}.icon{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:#fff;color:#4e245f}.crypto .icon{background:#efb14d}.loading{text-align:center;padding:26px 10px;color:#d9cce0;font-size:11px;font-weight:800}.spinner{width:24px;height:24px;border:3px solid #ffffff33;border-top-color:#20e9eb;border-radius:50%;margin:0 auto 10px;animation:spin .8s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.error{margin-top:12px;padding:10px 12px;border-radius:8px;background:#ff416421;border:1px solid #ff64824a;color:#ffd9df;font-size:10px;font-weight:700}.footer{text-align:center;color:#a995ad;font-size:8px;margin-top:16px}@media(max-width:420px){body{padding:25px 10px}.panel{padding:13px}}
+</style>
+</head>
+<body>
+<main class="app">
+<section id="searchPage">
+<div class="brand"><h1>ID Unban Request</h1><p>Instant Unban System. Secure &amp; Verified.</p></div>
+<div class="panel">
+<label class="label">SELECT REGION</label>
+<select id="region"><option>🇮🇳 India</option><option>🇧🇷 Brazil</option><option>🇮🇩 Indonesia</option><option>🇧🇩 Bangladesh</option></select>
+<div style="height:13px"></div>
+<label class="label">ENTER UID</label>
+<div class="uid-row"><input id="uid" inputmode="numeric" placeholder="Example: 123456789"><button class="check" id="checkBtn">CHECK ID</button></div>
+<div id="errorBox" class="error hidden"></div>
+<button class="support" onclick="alert('Support button clicked')">Support →</button>
+</div>
+</section>
+
+<section id="resultPage" class="hidden">
+<div class="brand"><h1>ID Unban Request</h1><p>Instant Unban System. Secure &amp; Verified.</p></div>
+<div class="panel">
+<div id="loading" class="loading"><div class="spinner"></div>Checking player ID...</div>
+<div id="resultContent" class="hidden">
+<div class="result-card">
+<div class="player-head"><div class="avatar" id="avatar">?</div><div><div class="player-name" id="playerName">Player</div><div class="uid">UID: <span id="playerUid">-</span><span class="verified">VERIFIED</span></div></div></div>
+<div class="stats"><div class="stat"><small>LEVEL</small><strong id="playerLevel">-</strong></div><div class="stat login"><small>LAST LOGIN</small><strong id="lastLogin">-</strong></div></div>
+</div>
+<div class="section-title">PAYMENT METHOD</div>
+<div class="methods"><div class="method"><div class="icon">₹</div>UPI / QR<span>Instant Scan</span></div><div class="method crypto"><div class="icon">₿</div>Crypto<span>Crypto</span></div></div>
+</div>
+</div>
+<div class="footer">Player information is loaded from the configured API.</div>
+</section>
+</main>
+
+<script>
+const $=id=>document.getElementById(id);
+
+function formatLogin(v){
+  if(!v||Number(v)===0)return"N/A";
+  const d=new Date(Number(v)*1000);
+  return Number.isNaN(d.getTime())?"N/A":d.toLocaleString("en-IN",{day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:false});
+}
+function error(msg){$("errorBox").textContent=msg;$("errorBox").classList.remove("hidden")}
+function clearError(){$("errorBox").classList.add("hidden");$("errorBox").textContent=""}
+
+async function checkPlayer(){
+  const uid=$("uid").value.trim(); clearError();
+  if(!/^\d{5,}$/.test(uid)){error("Please enter a valid numeric player UID.");return}
+  $("checkBtn").disabled=true;$("checkBtn").textContent="...";
+  $("searchPage").classList.add("hidden");$("resultPage").classList.remove("hidden");
+  $("loading").classList.remove("hidden");$("resultContent").classList.add("hidden");
+
+  try{
+    // Same-origin request to the Vercel serverless proxy.
+    const r=await fetch("/api/info?uid="+encodeURIComponent(uid),{headers:{"Accept":"application/json"},cache:"no-store"});
+    const data=await r.json();
+    if(!r.ok) throw new Error(data.error||("HTTP "+r.status));
+    const info=data.basic_info;
+    if(!info) throw new Error("Player information was not found.");
+
+    $("playerName").textContent=info.nickname||"Unknown Player";
+    $("playerUid").textContent=info.account_id??uid;
+    $("playerLevel").textContent=info.level??"N/A";
+    $("lastLogin").textContent=formatLogin(info.last_login_at);
+    $("avatar").textContent=String(info.nickname||"?").trim().slice(0,2).toUpperCase();
+
+    $("loading").classList.add("hidden");$("resultContent").classList.remove("hidden");
+  }catch(e){
+    $("resultPage").classList.add("hidden");$("searchPage").classList.remove("hidden");
+    error("Could not fetch this UID. "+(e.message||"Please try again."));
+  }finally{$("checkBtn").disabled=false;$("checkBtn").textContent="CHECK ID"}
+}
+$("checkBtn").onclick=checkPlayer;
+$("uid").onkeydown=e=>{if(e.key==="Enter")checkPlayer()};
+</script>
+</body>
+</html>
